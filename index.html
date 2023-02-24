@@ -103,27 +103,27 @@
     <div id="datos_personales">
 
       <div class="campo_form">
-        <label>Empresa </label>
+        <label for="empresa">Empresa </label>
         <input id="empresa" name="empresa" type="text">
       </div>
       <div class="campo_form">
-        <label class="obligatorio">Nombre(*) </label>
+        <label for="nombre" class="obligatorio">Nombre(*) </label>
         <input id="nombre" name="nombre" type="text" required>
       </div>
       <div class="campo_form">
-        <label class="obligatorio">Apellidos(*) </label>
+        <label for="apellidos" class="obligatorio">Apellidos(*) </label>
         <input id="apellidos" name="apellidos" type="text" required>
       </div>
     <div class="campo_form">
-        <label class="obligatorio">e-mail(*) </label>
+        <label for="email" class="obligatorio">e-mail(*) </label>
         <input id="email" name="email" type="text" required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$">
       </div>
      <div class="campo_form">
-       <label class="obligatorio"><abbr title="Telefono">Tlf</abbr>. de contacto(*) </label>
+       <label for="tlf" class="obligatorio"><abbr title="Telefono">Tlf</abbr>. de contacto(*) </label>
         <input id="tlf" name="tlf" type="text" required pattern="[9|8|7|6]\d{2}[-\s]?\d{3}[-\s]?\d{3}">
       </div>
       <div class="campo_form">
-        <label><abbr title="Número de identificación fiscal">NIF</abbr>/<abbr title="Código de identificación fiscal">CIF</abbr> </label>
+        <label for="nif" ><abbr title="Número de identificación fiscal">NIF</abbr>/<abbr title="Código de identificación fiscal">CIF</abbr> </label>
         <input id="nif" name="nif" type="text" pattern="[A-Z]\d{8}[A-Z]">
       </div>
     </div>
@@ -133,23 +133,23 @@
     <div id="datos_envio">
 
     	<div class="campo_form">
-        <label class="obligatorio">Dirección(*) </label>
+        <label for="dir" class="obligatorio">Dirección(*) </label>
         <input id="dir" name="dir" type="text" required>
       </div>
       <div class="campo_form">
-        <label class="obligatorio">Localidad(*) </label>
+        <label for="localidad" class="obligatorio">Localidad(*) </label>
         <input id="localidad" name="localidad" type="text" required>
       </div>
     	<div class="campo_form">
-        <label class="obligatorio">Provincia(*) </label>
+        <label for="provincia" class="obligatorio">Provincia(*) </label>
         <input id="provincia" name="provincia" type="text" required>
       </div>
     	<div class="campo_form">
-          <label class="obligatorio"><abbr title="Código postal">CP</abbr>(*) </label>
+          <label for="cp" class="obligatorio"><abbr title="Código postal">CP</abbr>(*) </label>
         <input id="cp" name="cp" type="text" pattern="\d{5}">
       </div>
       <div class="campo_form">
-       <label>Horario de entrega </label>
+       <label for="horario">Horario de entrega </label>
        <select name="horario">    
         	<option selected="selected" value="all">Todo el día</option>    
         	<option value="a">De 9:00 a 14:00 horas</option>      
@@ -161,7 +161,7 @@
 
     <fieldset>
     <div id="observaciones">
-      <label>Observaciones:</label><br>
+      <label for="obs" >Observaciones:</label><br>
       <textarea rows="6" cols="80" id="obs" name="obs">      </textarea>
     </div>
     </fieldset>
