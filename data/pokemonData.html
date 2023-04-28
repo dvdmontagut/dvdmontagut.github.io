@@ -20,6 +20,14 @@
                     <form class="d-flex sticky-top" role="search">
                         <input id="buscador" class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
                     </form>
+                    <script>
+                        const buscador = document.querySelector('#buscador');
+                        buscador.addEventListener('keydown', function(event) {
+                            if (event.keyCode === 13) {
+                                event.preventDefault();
+                            }
+                        });
+                    </script>
                 </li>
                 <li class="nav-item">
                     <div id="listado" class="list-group my-5 overflow-auto">
@@ -122,9 +130,10 @@
             .range([height, 0])
             .domain([0, d3.max(datosGrafico, function(d) { return d.valor; })]);
 
-        var colores = d3.scaleOrdinal()
-            .domain(datosGrafico.map(function(d) { return d.atributo; }))
-            .range(d3.schemeCategory10);
+
+        var colores = d3.scaleLinear()
+            .domain([0, 50, 80, 100,300])
+            .range(["red","red", "yellow", "green","green"]);
 
         svg.append("g")
             .attr("transform", "translate(0," + height + ")")
@@ -139,10 +148,15 @@
             .enter().append("rect")
             .attr("class", "barra")
             .attr("x", function(d) { return x(d.atributo); })
-            .attr("y", function(d) { return y(d.valor); })
+            .attr("y", function(d) { return y(0); })
             .attr("width", x.bandwidth())
-            .attr("height", function(d) { return height - y(d.valor); })
-            .attr("fill", function(d) { return colores(d.atributo); });
+            .attr("height", 0)
+            .transition()
+            .duration(2000)
+            .attr("height", function(d) { return y(0) - y(d.valor); })
+            .attr("y", function(d) { return y(d.valor); })
+            .attr("fill", function(d) { return colores(d.valor); });
+
 
         svg.selectAll(".valor")
             .data(datosGrafico)
@@ -152,7 +166,11 @@
             .attr("y", function(d) { return y(d.valor) - 5; })
             .attr("text-anchor", "middle")
             .attr("font-size", "12px")
-            .text(function(d) { return d.valor; });
+            .text(function(d) { return d.valor; })
+            .transition()
+            .duration(2000)
+            .delay(2000);
+
 
         var cardFooter = card.append("div")
             .attr("class", "card-footer")
@@ -271,6 +289,7 @@
         // Eliminar los botones que ya no se necesitan
         botones.exit().remove();
     });
+
 
 </script>
 
