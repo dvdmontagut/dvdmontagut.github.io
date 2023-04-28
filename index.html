@@ -1,275 +1,98 @@
-<!doctype html>
-<html lang="es">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport"
-        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>La aceitera, cesta de la compra</title>
-  <link rel="stylesheet" type="text/css" href="estilos.css" media="all">
+    <meta charset="UTF-8">
+    <title>Episodio 1: La llegada de D3</title>
+    <link rel="stylesheet" href="css/bootstrap.css" />
+    <script src="js/d3.js"></script>
+    <script src="js/bootstrap.js"></script>
 </head>
-
 <body>
 
-<div id="contenido">
+    <script>
+
+        var dateArray = [5,40,50,60];
+        var width = 500;
+        var height = 500;
 
 
-<!--
-************************************************
-*                  CABECERA                    *
-************************************************
--->
+        var widthScale = d3.scaleLinear().domain([0,60]).range([0,width]);
+        var colorScale = d3.scaleLinear().domain([0,60]).range(["green","red"]);
 
-  <h1 class="i" id="logo">
-  <span id="La">La</span>
-	<span id="aceitera">Aceitera</span> 
-	<span id="lema"><br>Tu tienda de aceite en Internet</span>
-  </h1>
+        var axis = d3.axisBottom(widthScale).ticks(5);
+        var canvas = d3.select("body").append("svg").attr("width",width).attr("height",height);
+        var g = canvas.append("g").attr("transform","translate(20,0)");
 
-  <nav>
-  <ul>
-    <li><a href="#articulos">Articulos de la cesta</a></li>
-    <li><a href="#datos">Datos de facturación</a></li>
-    <li><a href="#garantias">Garantías</a></li>
-  </ul>
-  </nav>
+        var bars = g.selectAll("rect").data(dateArray).enter().append("rect")
+            .attr("width",function (d){return widthScale(d);})
+            .attr("height",50)
+            .attr("fill",function(d){return colorScale(d)})
+            .attr("y",function (d,i){return i*75});
 
-<h2 class="t1">Cesta de la compra</h2>
+        canvas.append("g").attr("transform","translate(20,400)").call(axis);
+        /*
+        d3.json("pokemon.json").then(function (datos){
+            console.log(datos)
+        });
 
+         */
+        /*d3.selectAll("p").style("color","red");
+        d3.select(".clase").style("color","blue");
+        d3.select(".clase").select("a").style("color","black");
+        d3.select("#miid").style("color","green");
+        //d3.select("body").style("background-color","blue");
 
-<!--
-************************************************
-*      Contenido de la CESTA de la compra      *
-************************************************
--->
+        var misdatos = ["Primer dato","Segundo dato", "Tercer dato"];
+        d3.selectAll("p").data(misdatos).text(function(x,i){
+            mostrardatos = x + " " +i;
+            return mostrardatos;
+        })
+         */
+        /*var misdatos = ["Primer dato","Segundo dato", "Tercer dato"];
+        d3.select("body").selectAll("p").data(misdatos).enter().append("p").text(function (d,i){
+            return d;
+        });
 
-
-<div id="articulos">
-
-  <h3 class="t2">Artículos en la cesta</h3>
-	
-  <table id="tabla_compra">
-    <tbody>
-      <tr id="conceptos">
-        <th><b>Producto</b></th>
-        <th><b>PVP</b></th>
-        <th><b>Uds.</b></th>
-        <th><b>Eur.</b></th></tr>
-      <tr>
-        <td><b>Botella Oleum 500 <abbr title="mililitros">ml</abbr></b> (en caja de 12 unidades)</td>    <td>45 €</td>    <td>2</td>    <td>90 €</td>
-      </tr>
-      <tr>
-            <td><b>Aceitera de cristal Fenicia 500 ml</b></td>
-        <td>100 €</td>
-        <td>1</td>
-        <td>100 €</td>
-      </tr>
-      <tr>
-        <td><b>Garrafa Pet 5 litros</b>(en caja de 3 unidades)</td>    <td>52,97 €</td>    <td>1</td>    <td>52,97€</td>
-      </tr>
-    </tbody>
-    <tfoot>
-    <tr id="total">
-      <th></th>
-      <th></th>
-      <th><b>Precio total</b></th>
-      <td>242,97 €</td>
-    </tr>
-    </tfoot>
-
-  </table>
-	<blockquote lang="en">
-	  <p id="info_en">Non european customers can request a <abbr title="value added tax">VAT</abbr> refund</p>
-    </blockquote>
-</div>
+         */
+        /*
+        var misdatos = ["Primer dato","Segundo dato", "Tercer dato"];
+        var parrafos = d3.selectAll("p").data(misdatos).text(function (d,i){return d;});
+        parrafos.exit().remove();
+         */
+        /*var misdatos = ["Primer dato","Segundo dato", "Tercer dato"];
+        d3.selectAll("p").data(misdatos).join(
+                enter => enter.append("p").style("color","red"),
+                update => update,
+                exit => exit.remove()
+        ).text(function (d,i){ return d;});
+         */
 
 
-<!--
-************************************************
-*             DATOS de facturación             *
-************************************************
--->
+    </script>
+</body>
+</html>
 
 
-<div id="datos">
 
-  <h3 class="t2">Datos de facturación</h3>
+<div id="canvas" class="container">
+    <div class="card">
+        <div class="card-header">
+            <div class="container">
+                <div class="row">
+                    <div class="col">
+                        <p class="fs-3">Bulbasaur</p>
+                    </div>
+                    <div class="col text-end">
+                        <button class="btn-close justify-content-end"></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <svg>
 
-  <p class="info"><span class="i">i</span> Los campos marcados con un asterisco(*) son obligatorios.</p>
+            </svg>
+        </div>
 
-  <form action="#">
-    <fieldset >
-      <legend class="t3">Datos personales</legend>
-    <div id="datos_personales">
-
-      <div class="campo_form">
-        <label for="empresa">Empresa </label>
-        <input id="empresa" name="empresa" type="text">
-      </div>
-      <div class="campo_form">
-        <label for="nombre" class="obligatorio">Nombre(*) </label>
-        <input id="nombre" name="nombre" type="text" required>
-      </div>
-      <div class="campo_form">
-        <label for="apellidos" class="obligatorio">Apellidos(*) </label>
-        <input id="apellidos" name="apellidos" type="text" required>
-      </div>
-    <div class="campo_form">
-        <label for="email" class="obligatorio">e-mail(*) </label>
-        <input id="email" name="email" type="text" required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$">
-      </div>
-     <div class="campo_form">
-       <label for="tlf" class="obligatorio"><abbr title="Telefono">Tlf</abbr>. de contacto(*) </label>
-        <input id="tlf" name="tlf" type="text" required pattern="[9|8|7|6]\d{2}[-\s]?\d{3}[-\s]?\d{3}">
-      </div>
-      <div class="campo_form">
-        <label for="nif" ><abbr title="Número de identificación fiscal">NIF</abbr>/<abbr title="Código de identificación fiscal">CIF</abbr> </label>
-        <input id="nif" name="nif" type="text" pattern="[A-Z]\d{8}[A-Z]">
-      </div>
     </div>
-    </fieldset>
-    <fieldset>
-      <legend class="t3">Datos de envío</legend>
-    <div id="datos_envio">
-
-    	<div class="campo_form">
-        <label for="dir" class="obligatorio">Dirección(*) </label>
-        <input id="dir" name="dir" type="text" required>
-      </div>
-      <div class="campo_form">
-        <label for="localidad" class="obligatorio">Localidad(*) </label>
-        <input id="localidad" name="localidad" type="text" required>
-      </div>
-    	<div class="campo_form">
-        <label for="provincia" class="obligatorio">Provincia(*) </label>
-        <input id="provincia" name="provincia" type="text" required>
-      </div>
-    	<div class="campo_form">
-          <label for="cp" class="obligatorio"><abbr title="Código postal">CP</abbr>(*) </label>
-        <input id="cp" name="cp" type="text" pattern="\d{5}">
-      </div>
-      <div class="campo_form">
-       <label for="horario">Horario de entrega </label>
-       <select  id="horario" title="horario" name="horario">    
-        	<option selected="selected" value="all">Todo el día</option>    
-        	<option value="a">De 9:00 a 14:00 horas</option>      
-        	<option value="b">De 14:00 a 19:00 horas</option>      
-        </select>
-     </div>
-    </div>
-    </fieldset>
-
-    <fieldset>
-    <div id="observaciones">
-      <label for="obs" >Observaciones:</label><br>
-      <textarea rows="6" cols="80" id="obs" name="obs">      </textarea>
-    </div>
-    </fieldset>
-    <p id="submit">
-      <input value="Realizar Pedido" type="submit">
-    </p>
-  </form>
-
 </div>
-
-
-<!--
-************************************************
-*           Información de GARANTIAS           *
-************************************************
--->
-
-
-<div id="garantias">
-
-  <h3 class="t2">Garantías</h3>
-
-  <h4 class="t3">Devolución o anulación de pedido</h4>
-
-    <p>Puedes devolver un producto o pedido que por algún motivo no satisface 
-      tus expectativas.</p>
-    <p>Plazo de tramitación: Dispones de 10 días hábiles 
-      para gestionar la devolución de un producto o pedido desde que su 
-      estado es Entregado en Mi Cuenta.</p>
-    <p>Estado del pedido: Desde que te llega hasta que aparece en la web como 
-      Entregado pueden pasar hasta 48 horas, puesto que es el tiempo que transcurre 
-      desde que el operador logístico realiza la entrega hasta que nos 
-      lo comunica y lo actualizamos en nuestra base de datos. Así, si tu 
-      pedido no aparece en la lista del apartado Devoluciones, te aconsejamos 
-      que lo vuelvas a intentar pasado este plazo.</p>
-    <p>Condiciones del paquete: El producto debe estar en perfecto estado, con 
-      el embalaje y etiquetado original y en la misma caja o sobre que te hemos 
-      enviado, o en su defecto en algún formato similar que garantice la 
-      devolución en perfecto estado.</p>
-    <p>Albarán: Debes incluir una copia del albarán de devolución 
-      dentro de la caja que pasaremos a recoger. Puedes descargarlo desde el e-mail 
-      de confirmación de tu devolución o durante el proceso a través 
-      de la web.</p>
-    <p>Abono: Una vez recibamos la devolución en nuestros almacenes procederemos 
-      a abonarte el importe correspondiente. En 48 horas verás reflejado 
-      el ingreso en el extracto de movimientos de tu tarjeta de crédito 
-      o de tu cuenta bancaria si pagaste con tarjeta de débito.</p>
-    <p></p>
-    <h4 class="t3">Seguridad</h4>
-
-    <p>Tus datos se transmiten cifrados a través de una plataforma de pago 
-      totalmente segura.</p>
-
-  <h4 class="t3">Privacidad</h4>
-
-    <p>Los Socios y Usuarios se comprometen a navegar por la página web y 
-      a utilizar el contenido de buena fe.</p>
-    <p>En cumplimiento de lo establecido en la Ley Orgánica 15/1999, de 
-      Protección de Datos de Carácter Personal, le informamos de 
-      que la cumplimentación de cualquier formulario existente en Sitio 
-      Web www.laaceitera.com o la remisión de un correo electrónico 
-      a cualquiera de nuestros buzones implica la aceptación de esta política 
-      de privacidad, así como la autorización a La Aceitera para que 
-      trate los datos personales que nos facilite.</p>
-    <p>Los datos de los Socios serán utilizados para el envío a 
-      través de email de las ventas que realice La Aceitera y para la entrega 
-      de los compras.</p>
-    <p>Por la mera visita a la web, los Usuarios no facilitan información 
-      personal alguna ni queda obligado a facilitarla.</p>
-    <p>El ordenador donde está alojada la web utiliza cookies para mejorar 
-      el servicio prestado por La Aceitera. Estas cookies se instalan automáticamente 
-      en el ordenador empleado por los Socios y Usuarios pero no almacenan ningún 
-      tipo de información relativa a éstos.</p>
-    <p>La Aceitera se compromete a guardar la máxima reserva y confidencialidad 
-      sobre la información que le sea facilitada y a utilizarla únicamente 
-      para los fines indicados.</p>
-    <p>La Aceitera presume que los datos han sido introducidos por su titular o por 
-      persona autorizada por éste, así como que son correctos y 
-      exactos.</p>
-    <p>Corresponde a los Socios la actualización de sus propios datos. 
-      En cualquier momento, el Socio tendrá el derecho de acceso, rectificación, 
-      cancelación y oposición a todos sus datos personales incluidos 
-      en los distintos formularios de alta. Para ejercitar esta facultad el Socio 
-      deberá acceder a www.laaceitera.com, al apartado "Mi Cuenta". 
-      Por lo tanto, el Socio es responsable de la veracidad de los datos y La 
-      Aceitera no será responsable de su inexactitud de los datos personales 
-      de los Socios.</p>
-    <p>Conforme a la legislación vigente en materia de protección 
-      de datos, La Aceitera ha adoptado los niveles de seguridad adecuados a los 
-      datos facilitados por los Socios y, además, ha instalado todos los 
-      medios y medidas a su alcance para evitar la pérdida, mal uso, alteración, 
-      acceso no autorizado y extracción de los mismos.<br>
-    </p>
-    <h4 class="t3">
-      <!--
-************************************************
-*                 PIE de página                *
-************************************************
--->
-    </h4>
-  </div>
-
-
-  <p id="pie"> 2016 La Aceitera. 37008 Salamanca</p>
-
-</div>
-
-
-
-
-</body></html>

@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Pokemon stats</title>
+    <link rel="stylesheet" href="../css/bootstrap.css"/>
+    <link rel="stylesheet" href="../css/propio.css"/>
+    <script src="../js/d3.js"></script>
+    <script src="../js/bootstrap.js"></script>
+    <script src="../js/propio.js"></script>
+
+</head>
+<body class="font-monospace">
+
+<div class="container-fluid" id="main">
+    <div class="row row-offcanvas row-offcanvas-left vh-100">
+        <div class="col-md-3 col-lg-2 sidebar-offcanvas h-100 overflow-auto bg-light pl-0" id="sidebar" role="navigation">
+            <ul class="nav flex-column sticky-top pl-0 pt-5 mt-3">
+                <li class="nav-item">
+                    <form class="d-flex sticky-top" role="search">
+                        <input id="buscador" class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                    </form>
+                </li>
+                <li class="nav-item">
+                    <div id="listado" class="list-group my-5 overflow-auto">
+
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <!--/col-->
+        <main class="col main pt-5 mt-3 h-100 overflow-auto">
+            <h1 class="display-4 d-none d-sm-block">
+                Pokémon Stadistics
+            </h1>
+            <div id="canvas" class="container">
+
+            </div>
+        </main>
+    </div>
+</div>
+
+
+<script>
+
+    function crearGrafica(d) {
+        // código que se ejecuta cuando se pulsa un botón
+        console.log(d);
+
+        var datosGrafico = [
+            { atributo: "HP", valor: d.HP },
+            { atributo: "Atk", valor: d.Attack },
+            { atributo: "Def", valor: d.Defense },
+            { atributo: "Sp.Atk", valor: d["Sp. Atk"] },
+            { atributo: "Sp.Def", valor: d["Sp. Def"] },
+            { atributo: "Spe", valor: d.Speed }
+        ];
+
+        var width = 500;
+        var height = 300;
+        var margin = {top: 20, right: 20, bottom: 30, left: 40};
+
+
+        var canvas = d3.select("#canvas");
+
+        var card = canvas.append("div")
+            .attr("class", "card my-2");
+
+        var cardHeader = card.append("div")
+            .attr("class", "card-header")
+            .append("div")
+            .attr("class", "container")
+            .append("div")
+            .attr("class", "row");
+
+        let nombre;
+        if(d.Form){
+            nombre = d.Name + " ("+d.Form + ")";
+        }else{
+            nombre = d.Name;
+        }
+
+        let link = "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/portrait/" + d.ID.toString().padStart(4, '0') + "/Normal.png";
+
+
+        cardHeader.append("div")
+            .attr("class", "col")
+            .append("img")
+            .attr("src", function (d) {
+                return link;
+            })
+            .attr("alt", "?");
+
+        cardHeader.append("div")
+            .attr("class", "col")
+            .append("p")
+            .attr("class", "fs-3")
+            .text(nombre);
+
+        cardHeader.append("div")
+            .attr("class", "col text-end")
+            .append("button")
+            .attr("class", "btn-close justify-content-end")
+            .on("click",function(){
+                card.remove();
+            });
+
+        var cardBody = card.append("div")
+            .attr("class", "card-body");
+
+        var svg = cardBody.append("svg")
+            .attr("width", width + margin.left + margin.right)
+            .attr("height", height + margin.top + margin.bottom)
+            .append("g")
+            .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+        var x = d3.scaleBand()
+            .range([0, width])
+            .padding(0.1)
+            .domain(datosGrafico.map(function(d) { return d.atributo; }));
+
+        var y = d3.scaleLinear()
+            .range([height, 0])
+            .domain([0, d3.max(datosGrafico, function(d) { return d.valor; })]);
+
+        var colores = d3.scaleOrdinal()
+            .domain(datosGrafico.map(function(d) { return d.atributo; }))
+            .range(d3.schemeCategory10);
+
+        svg.append("g")
+            .attr("transform", "translate(0," + height + ")")
+            .call(d3.axisBottom(x));
+
+        svg.append("g")
+            .call(d3.axisLeft(y));
+
+
+        svg.selectAll(".barra")
+            .data(datosGrafico)
+            .enter().append("rect")
+            .attr("class", "barra")
+            .attr("x", function(d) { return x(d.atributo); })
+            .attr("y", function(d) { return y(d.valor); })
+            .attr("width", x.bandwidth())
+            .attr("height", function(d) { return height - y(d.valor); })
+            .attr("fill", function(d) { return colores(d.atributo); });
+
+        svg.selectAll(".valor")
+            .data(datosGrafico)
+            .enter().append("text")
+            .attr("class", "valor")
+            .attr("x", function(d) { return x(d.atributo) + x.bandwidth() / 2; })
+            .attr("y", function(d) { return y(d.valor) - 5; })
+            .attr("text-anchor", "middle")
+            .attr("font-size", "12px")
+            .text(function(d) { return d.valor; });
+
+        var cardFooter = card.append("div")
+            .attr("class", "card-footer")
+            .append("p")
+            .attr("class","fs-3")
+            .text("Total:"+d.Total);
+
+
+    }
+
+    let datos;
+    d3.json("../pokemon.json").then(function (data) {
+        datos = data;
+        // Seleccionar el contenedor donde se agregarán los botones
+        const contenedor = d3.select("#listado");
+
+        // Crear los botones y agregar los datos correspondientes
+        const botones = contenedor.selectAll("button")
+            .data(datos)
+            .enter()
+            .append("button")
+            .attr("class", "list-group-item")
+
+        // Agregar los elementos HTML dentro de cada botón
+        botones.append("div")
+            .attr("class", "row")
+            .append("div")
+            .attr("class", "col")
+            .append("img")
+            .attr("src", function (d) {
+                return "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/portrait/" + d.ID.toString().padStart(4, '0') + "/Normal.png";
+            })
+            .attr("alt", "?");
+
+        botones.select(".row")
+            .append("div")
+            .attr("class", "col fs-5")
+            .append("p")
+            .text(function (d) {
+                if (d.Form) {
+                    return d.Name + " (" + d.Form + ")";
+                } else {
+                    return d.Name;
+                }
+
+            })
+            .on("click", function(e,d){
+                crearGrafica(d);
+            });
+
+        botones.select(".row")
+            .selectAll(".col")
+            .data(function () {
+                // Agregar columnas vacías adicionales si es necesario
+                return [1, 2, 3];
+            })
+            .enter()
+            .append("div")
+            .attr("class", "col");
+
+
+
+    });
+
+
+    const inputBusqueda = d3.select("#buscador");
+
+    // Escuchar el evento input del input de búsqueda
+    inputBusqueda.on("input", function () {
+        // Obtener el valor del input de búsqueda
+
+        const valorBusqueda = this.value.trim().toLowerCase();
+        console.log(valorBusqueda);
+        // Filtrar los datos según el valor de búsqueda
+        const datosFiltrados = datos.filter(function (d) {
+            return d.Name.toLowerCase().includes(valorBusqueda);
+        });
+
+        // Seleccionar los botones y actualizar los datos
+        const botones = d3.select("#listado")
+            .selectAll("button")
+            .data(datosFiltrados, function (d) {
+                return d.ID;
+            });
+
+        // Agregar los nuevos botones si es necesario
+        const nuevoBoton = botones.enter()
+            .append("button")
+            .attr("class", "list-group-item");
+
+        nuevoBoton.append("div")
+            .attr("class", "row")
+            .append("div")
+            .attr("class", "col")
+            .append("img")
+            .attr("src", function (d) {
+                return "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/portrait/" + d.ID.toString().padStart(4, '0') + "/Normal.png";
+            })
+            .attr("alt", "?");
+
+        nuevoBoton.select(".row")
+            .append("div")
+            .attr("class", "col fs-5")
+            .append("p")
+            .text(function (d) {
+                if (d.Form) {
+                    return d.Name + " (" + d.Form + ")";
+                } else {
+                    return d.Name;
+                }
+            }).on("click", function(e,d){
+            crearGrafica(d);
+        });
+
+
+        // Eliminar los botones que ya no se necesitan
+        botones.exit().remove();
+    });
+
+</script>
+
+
+</body>
+</html>
