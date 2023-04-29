@@ -232,10 +232,73 @@
                             Pokémon Compare Stats
                         </h1>
                     </div>
+
+                </div>
+                <div class="row my-3">
+                    <div class="p-3 border border-4 border-dark rounded col overflow-auto">
+                        <div class="container list-group list-group-horizontal " id="elegidos">
+
+                        </div>
+                    </div>
                 </div>
             </div>
-
             <div id="canvas" class="container">
+
+                <div class="card my-2">
+                    <div class="card-header bg-success">
+                        <p class="fs-3">HP:</p>
+                    </div>
+                    <div class="card-body" id="hp">
+
+                    </div>
+                </div>
+
+                <div class="card my-2">
+                    <div class="card-header bg-danger">
+                        <p class="fs-3">Attack:</p>
+                    </div>
+                    <div class="card-body" id="atk">
+
+                    </div>
+                </div>
+
+                <div class="card my-2">
+                    <div class="card-header bg-primary">
+                        <p class="fs-3">Defense:</p>
+                    </div>
+                    <div class="card-body" id="def">
+
+                    </div>
+                </div>
+
+                <div class="card my-2">
+                    <div class="card-header bg-info">
+                        <p class="fs-3">Sp.Attack:</p>
+                    </div>
+                    <div class="card-body" id="sa">
+
+                    </div>
+                </div>
+
+                <div class="card my-2">
+                    <div class="card-header bg-secondary">
+                        <p class="fs-3">Sp.Defense:</p>
+                    </div>
+                    <div class="card-body" id="sd">
+
+                    </div>
+                </div>
+
+                <div class="card my-2">
+                    <div class="card-header bg-warning">
+                        <p class="fs-3">Speed:</p>
+                    </div>
+                    <div class="card-body" id="spe">
+
+                    </div>
+                </div>
+
+
 
             </div>
         </main>
@@ -281,7 +344,7 @@
 
             })
             .on("click", function(e,d){
-                crearGrafica(d);
+                addToCompare(d);
             });
 
         botones.select(".row")
@@ -426,10 +489,43 @@
     });
 </script>
 <script>
+
+    function addToCompare(d){
+
+        let link = "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/portrait/" + d.ID.toString().padStart(4, '0') + "/Normal.png";
+
+        var elegidos = d3.select("#elegidos");
+        var item = elegidos.append("li")
+            .attr("class", "list-group-item border border-3 border-secondary col");
+
+        var container = item.append("div")
+            .attr("class", "container overflow-hidden");
+
+        var row = container.append("div")
+            .attr("class", "row");
+
+        var col = row.append("div")
+            .attr("class", "col")
+            .append("img")
+            .attr("src", link);
+
+        row.append("div")
+            .attr("class", "col text-end")
+            .append("button")
+            .attr("class", "btn-close").on("click",function(){
+            item.remove();
+        });
+
+        container.append("div")
+            .attr("class", "row")
+            .append("p")
+            .attr("class", "fs-4")
+            .text(d.Name);
+
+    }
+
     function crearGrafica(d) {
         // código que se ejecuta cuando se pulsa un botón
-        console.log(d);
-
         var datosGrafico = [
             { atributo: "HP", valor: d.HP },
             { atributo: "Atk", valor: d.Attack },
