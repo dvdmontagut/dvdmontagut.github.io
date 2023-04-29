@@ -92,8 +92,8 @@
                                     <label class="form-check-label" for="fairy">Fairy</label>
                                 </div>
                                 <div class="form-check form-switch col">
-                                    <input class="form-check-input" type="checkbox" role="switch" id="fight">
-                                    <label class="form-check-label" for="fight">Fight</label>
+                                    <input class="form-check-input" type="checkbox" role="switch" id="fighting">
+                                    <label class="form-check-label" for="fighting">Fight</label>
                                 </div>
                             </div>
                             <div class="row">
@@ -102,8 +102,8 @@
                                     <label class="form-check-label" for="fire">Fire</label>
                                 </div>
                                 <div class="form-check form-switch col">
-                                    <input class="form-check-input" type="checkbox" role="switch" id="fly">
-                                    <label class="form-check-label" for="fly">Fly</label>
+                                    <input class="form-check-input" type="checkbox" role="switch" id="flying">
+                                    <label class="form-check-label" for="flying">Fly</label>
                                 </div>
                             </div>
                             <div class="row">
@@ -333,43 +333,36 @@
                             if(index > -1)
                                 filtrosGen.splice(index,1);
                             break;
-
                         case "four":
                             index = filtrosGen.indexOf('4');
                             if(index > -1)
                                 filtrosGen.splice(index,1);
-                            break;
-
+                            break
                         case "five":
                             index = filtrosGen.indexOf('5');
                             if(index > -1)
                                 filtrosGen.splice(index,1);
                             break;
-
                         case "six":
                             index = filtrosGen.indexOf('6');
                             if(index > -1)
                                 filtrosGen.splice(index,1);
                             break;
-
                         case "seven":
                             index = filtrosGen.indexOf('7');
                             if(index > -1)
                                 filtrosGen.splice(index,1);
                             break;
-
                         case "eight":
                             index = filtrosGen.indexOf('8');
                             if(index > -1)
                                 filtrosGen.splice(index,1);
                             break;
-
                         case "nine":
                             index = filtrosGen.indexOf('9');
                             if(index > -1)
                                 filtrosGen.splice(index,1);
                             break;
-
                         default :
                             index = filtrosGen.indexOf(this.id);
                             if(index > -1)
@@ -381,7 +374,6 @@
                             break;
                     }
                 }
-
                 datosFiltradosGenTip = datos.filter(function (d) {
                     let esta = false;
                     if (filtrosTipo.length != 0) {
@@ -424,11 +416,7 @@
 
         });
     });
-
-
-
 </script>
-
 <script>
     function crearGrafica(d) {
         // código que se ejecuta cuando se pulsa un botón
@@ -595,8 +583,6 @@
             }).on("click", function(e,d){
             crearGrafica(d);
         });
-
-
         // Eliminar los botones que ya no se necesitan
         botones.exit().remove();
     }
