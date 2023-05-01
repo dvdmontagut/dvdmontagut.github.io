@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Pokemon Curiosity</title>
+    <link rel="stylesheet" href="../css/bootstrap.css"/>
+    <link rel="stylesheet" href="../css/propio.css"/>
+    <script src="../js/d3.js"></script>
+    <script src="../js/bootstrap.js"></script>
+    <script src="../js/propio.js"></script>
+    <link rel="shortcut icon" href="../img/icono.ico" type="image/x-icon">
+
+</head>
+
+<nav class="navbar navbar-dark bg-dark font-monospace">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">@dvdmontagut's Pokemon Stats Web</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDarkNavbar"
+                aria-controls="offcanvasDarkNavbar">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="offcanvas offcanvas-end text-bg-dark" tabindex="-1" id="offcanvasDarkNavbar"
+             aria-labelledby="offcanvasDarkNavbarLabel">
+            <div class="offcanvas-header">
+                <h5 class="offcanvas-title" id="offcanvasDarkNavbarLabel">Other options</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"
+                        aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body">
+                <ul class="navbar-nav justify-content-end flex-grow-1 pe-3 fs-2">
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="pokemonData.html">Stats</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="pokemonCompare.html">Compare stats</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link " href="pokemonRanking.html">Ranking</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#">Curiosity</a>
+                    </li>
+                </ul>
+
+            </div>
+        </div>
+    </div>
+</nav>
+<body class="font-monospace overflow-auto">
+<div class="container-fluid my-5">
+    <div class="row">
+        <div class="col">
+            <div class="card">
+                <div class="card-header">
+                    <p class="fs-3">
+                        All Pokémon by Generation
+                    </p>
+                </div>
+                <div class="card-body" id="gen">
+
+                </div>
+                <div class="card-footer" >
+                    <p class="fs-4" id="genF"></p>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card">
+                <div class="card-header">
+                    <p class="fs-3">
+                        All Pokémon by Type
+                    </p>
+                </div>
+                <div class="card-body" id="type">
+
+                </div>
+                <div class="card-footer" >
+                    <p class="fs-4" id="typeF"></p>
+                </div>
+            </div>
+        </div>
+        <script>
+            d3.json("../pokemon.json").then(function(data) {
+                var counts = {};
+                data.forEach(function(d) {
+                    var gen = d.Generation;
+                    if (counts[gen]) {
+                        counts[gen]++;
+                    } else {
+                        counts[gen] = 1;
+                    }
+                });
+
+                var pieData = [];
+                for (var gen in counts) {
+                    pieData.push({
+                        generation: "Gen" + gen,
+                        count: counts[gen]
+                    });
+                }
+
+                var width = (window.innerWidth/2) - 100;;
+                var height = 650;
+                var radius = Math.min(width, height) / 2;
+                var centerX = width / 2;
+                var centerY = height / 2;
+
+                var color = d3.scaleOrdinal(d3.schemeCategory10);
+
+                var pie = d3.pie()
+                    .value(function(d) { return d.count; })
+                    .sort(null);
+
+                var arc = d3.arc()
+                    .innerRadius(250)
+                    .outerRadius(radius);
+
+                var svg = d3.select("#gen")
+                    .append("svg")
+                    .attr("width", width)
+                    .attr("height", height);
+                var group = svg.append("g")
+                    .attr("transform", "translate(" + centerX + "," + centerY + ")");
+
+                var arcs = group.selectAll(".arc")
+                    .data(pie(pieData))
+                    .enter()
+                    .append("g")
+                    .attr("class", "arc");
+                arcs.append("path")
+                    .attr("d", arc)
+                    .attr("fill", function(d) { return color(d.data.generation); });
+                arcs.append("text")
+                    .attr("transform", function(d) {
+                        var angle = (d.startAngle + d.endAngle) / 2;
+                        var degrees = (angle / Math.PI) * 180;
+                        var x = arc.centroid(d)[0];
+                        var y = arc.centroid(d)[1];
+                        var rotation = degrees > 90 && degrees < 270 ? degrees + 180 : degrees; // Aplica rotación adicional si el ángulo está en el tercer o cuarto cuadrante
+                        return "translate(" + x + "," + y + ") " + "rotate(" + rotation + ")";
+                    })
+                    .attr("text-anchor", "middle")
+                    .text(function(d) {
+                        return d.data.generation + ": " + d.data.count;
+                    });
+
+
+
+                d3.select("#genF").text("Total:"+ data.length + " Unique species + forms");
+
+
+                var counts = {};
+                var types = ["Bug", "Dark", "Dragon", "Electric", "Fairy", "Fighting", "Fire", "Flying", "Ghost", "Grass", "Ground", "Ice", "Normal", "Poison", "Psychic", "Rock", "Steel", "Water"];
+                types.forEach(function(type) {
+                    counts[type] = 0;
+                });
+                data.forEach(function(d) {
+                    var type1 = d.Type1;
+                    var type2 = d.Type2;
+                    if (type1 in counts) {
+                        counts[type1]++;
+                    } else {
+                        counts[type1] = 1;
+                    }
+                    if (type2 !== "" && type2 in counts) {
+                        counts[type2]++;
+                    } else if (type2 !== "") {
+                        counts[type2] = 1;
+                    }
+                });
+
+                var pieData = [];
+                for (var type in counts) {
+                    pieData.push({
+                        type: type,
+                        count: counts[type]
+                    });
+                }
+
+
+                color = d3.scaleOrdinal()
+                    .domain(types)
+                    .range(["#A8B820", "#705848", "#7038F8", "#F8D030", "#EE99AC", "#C03028", "#F08030", "#A890F0", "#705898", "#78C850", "#E0C068", "#98D8D8", "#A8A878", "#A040A0", "#F85888", "#B8A038", "#B8B8D0", "#6890F0"]);
+
+
+
+                 pie = d3.pie()
+                    .value(function(d) { return d.count; })
+                    .sort(null);
+
+                 arc = d3.arc()
+                    .innerRadius(250)
+                    .outerRadius(radius);
+
+                 svg = d3.select("#type")
+                    .append("svg")
+                    .attr("width", width)
+                    .attr("height", height);
+                 group = svg.append("g")
+                    .attr("transform", "translate(" + centerX + "," + centerY + ")");
+
+                 arcs = group.selectAll(".arc")
+                    .data(pie(pieData))
+                    .enter()
+                    .append("g")
+                    .attr("class", "arc");
+                arcs.append("path")
+                    .attr("d", arc)
+                    .attr("fill", function(d) { return color(d.data.type); });
+                arcs.append("text")
+                    .attr("transform", function(d) {
+                        var angle = (d.startAngle + d.endAngle) / 2;
+                        var degrees = (angle / Math.PI) * 180;
+                        var x = arc.centroid(d)[0];
+                        var y = arc.centroid(d)[1];
+                        var rotation = degrees > 90 && degrees < 270 ? degrees + 180 : degrees; // Aplica rotación adicional si el ángulo está en el tercer o cuarto cuadrante
+                        return "translate(" + x + "," + y + ") " + "rotate(" + rotation + ")";
+                    })
+                    .attr("text-anchor", "middle")
+                    .attr("font-size", "12px")
+                    .text(function(d) {
+                        return d.data.type + ": " + d.data.count;
+                    });
+
+
+                d3.select("#typeF").text("Total:"+ data.length + " Unique species + forms");
+
+
+            });
+        </script>
+    </div>
+</div>
+</body>
+</html>

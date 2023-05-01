@@ -2,79 +2,19 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Episodio 1: La llegada de D3</title>
+    <title>@dvdmontagut's pokemon Stats Web</title>
     <link rel="stylesheet" href="css/bootstrap.css" />
-    <script src="js/d3.js"></script>
     <script src="js/bootstrap.js"></script>
 </head>
 <body>
-<div class="container">
-    <img src="img/icono.png">
+<div class="container-fluid">
+
+        <img src="img/icono.png" width="500" height="500">
+
+
 </div>
-
-
     <script>
         location.replace('https://dvdmontagut.github.io/data/pokemonData.html');
-
-
-    /*
-    var dateArray = [5,40,50,60];
-        var width = 500;
-        var height = 500;
-
-
-        var widthScale = d3.scaleLinear().domain([0,60]).range([0,width]);
-        var colorScale = d3.scaleLinear().domain([0,60]).range(["green","red"]);
-
-        var axis = d3.axisBottom(widthScale).ticks(5);
-        var canvas = d3.select("body").append("svg").attr("width",width).attr("height",height);
-        var g = canvas.append("g").attr("transform","translate(20,0)");
-
-        var bars = g.selectAll("rect").data(dateArray).enter().append("rect")
-            .attr("width",function (d){return widthScale(d);})
-            .attr("height",50)
-            .attr("fill",function(d){return colorScale(d)})
-            .attr("y",function (d,i){return i*75});
-
-        canvas.append("g").attr("transform","translate(20,400)").call(axis);
-        /*
-        d3.json("pokemon.json").then(function (datos){
-            console.log(datos)
-        });
-
-         */
-        /*d3.selectAll("p").style("color","red");
-        d3.select(".clase").style("color","blue");
-        d3.select(".clase").select("a").style("color","black");
-        d3.select("#miid").style("color","green");
-        //d3.select("body").style("background-color","blue");
-
-        var misdatos = ["Primer dato","Segundo dato", "Tercer dato"];
-        d3.selectAll("p").data(misdatos).text(function(x,i){
-            mostrardatos = x + " " +i;
-            return mostrardatos;
-        })
-         */
-        /*var misdatos = ["Primer dato","Segundo dato", "Tercer dato"];
-        d3.select("body").selectAll("p").data(misdatos).enter().append("p").text(function (d,i){
-            return d;
-        });
-
-         */
-        /*
-        var misdatos = ["Primer dato","Segundo dato", "Tercer dato"];
-        var parrafos = d3.selectAll("p").data(misdatos).text(function (d,i){return d;});
-        parrafos.exit().remove();
-         */
-        /*var misdatos = ["Primer dato","Segundo dato", "Tercer dato"];
-        d3.selectAll("p").data(misdatos).join(
-                enter => enter.append("p").style("color","red"),
-                update => update,
-                exit => exit.remove()
-        ).text(function (d,i){ return d;});
-         */
-
-
-
     </script>
+</body>
 </html>

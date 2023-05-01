@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Pokemon Stats Ranking</title>
+    <link rel="stylesheet" href="../css/bootstrap.css"/>
+    <link rel="stylesheet" href="../css/propio.css"/>
+    <script src="../js/d3.js"></script>
+    <script src="../js/bootstrap.js"></script>
+    <script src="../js/propio.js"></script>
+    <link rel="shortcut icon" href="../img/icono.ico" type="image/x-icon">
+
+</head>
+
+<body class="font-monospace">
+<nav class="navbar navbar-dark bg-dark font-monospace">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">@dvdmontagut's Pokemon Stats Web</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDarkNavbar"
+                aria-controls="offcanvasDarkNavbar">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="offcanvas offcanvas-end text-bg-dark" tabindex="-1" id="offcanvasDarkNavbar"
+             aria-labelledby="offcanvasDarkNavbarLabel">
+            <div class="offcanvas-header">
+                <h5 class="offcanvas-title" id="offcanvasDarkNavbarLabel">Other options</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"
+                        aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body">
+                <ul class="navbar-nav justify-content-end flex-grow-1 pe-3 fs-2">
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="pokemonData.html">Stats</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="pokemonCompare.html">Compare stats</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#">Ranking</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="pokemonCuriosity.html">Curiosity</a>
+                    </li>
+                </ul>
+
+            </div>
+        </div>
+    </div>
+</nav>
+<div class="container-fluid" id="main">
+    <div class="row row-offcanvas row-offcanvas-left vh-100">
+        <div class="col-md-3 col-lg-2 sidebar-offcanvas h-100 overflow-auto bg-light pl-0" id="sidebar"
+             role="navigation">
+            <ul class="nav flex-column sticky-top pl-0 pt-5 mt-3">
+                <li class="nav-item">
+                    <form class="d-flex" role="filter">
+                        <div class="container my-2">
+                            <div class="row">
+                                <legend>Filter Types</legend>
+                            </div>
+                            <div class="row">
+                                <div class="form-check form-switch col">
+                                    <input class="form-check-input" type="checkbox" role="switch" id="bug">
+                                    <label class="form-check-label" for="bug">Bug</label>
+                                </div>
+                                <div class="form-check form-switch col">
+                                    <input class="form-check-input" type="checkbox" role="switch" id="dragon">
+                                    <label class="form-check-label" for="dragon">Dragon</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-check form-switch col">
+                                    <input class="form-check-input" type="checkbox" role="switch" id="dark">
+                                    <label class="form-check-label" for="dark">Dark</label>
+                                </div>
+                                <div class="form-check form-switch col">
+                                    <input class="form-check-input" type="checkbox" role="switch" id="electric">
+                                    <label class="form-check-label" for="electric">Electric</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-check form-switch col">
+                                    <input class="form-check-input" type="checkbox" role="switch" id="fairy">
+                                    <label class="form-check-label" for="fairy">Fairy</label>
+                                </div>
+                                <div class="form-check form-switch col">
+                                    <input class="form-check-input" type="checkbox" role="switch" id="fighting">
+                                    <label class="form-check-label" for="fighting">Fight</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-check form-switch col">
+                                    <input class="form-check-input" type="checkbox" role="switch" id="fire">
+                                    <label class="form-check-label" for="fire">Fire</label>
+                                </div>
+                                <div class="form-check form-switch col">
+                                    <input class="form-check-input" type="checkbox" role="switch" id="flying">
+                                    <label class="form-check-label" for="flying">Fly</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-check form-switch col">
+                                    <input class="form-check-input" type="checkbox" role="switch" id="ghost">
+                                    <label class="form-check-label" for="ghost">Ghost</label>
+                                </div>
+                                <div class="form-check form-switch col">
+                                    <input class="form-check-input" type="checkbox" role="switch" id="grass">
+                                    <label class="form-check-label" for="grass">Grass</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-check form-switch col">
+                                    <input class="form-check-input" type="checkbox" role="switch" id="ground">
+                                    <label class="form-check-label" for="ground">Ground</label>
+                                </div>
+                                <div class="form-check form-switch col">
+                                    <input class="form-check-input" type="checkbox" role="switch" id="ice">
+                                    <label class="form-check-label" for="ice">Ice</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-check form-switch col">
+                                    <input class="form-check-input" type="checkbox" role="switch" id="normal">
+                                    <label class="form-check-label" for="normal">Normal</label>
+                                </div>
+                                <div class="form-check form-switch col">
+                                    <input class="form-check-input" type="checkbox" role="switch" id="poison">
+                                    <label class="form-check-label" for="poison">Poison</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-check form-switch col">
+                                    <input class="form-check-input" type="checkbox" role="switch" id="psychic">
+                                    <label class="form-check-label" for="psychic">Psychic</label>
+                                </div>
+                                <div class="form-check form-switch col">
+                                    <input class="form-check-input" type="checkbox" role="switch" id="rock">
+                                    <label class="form-check-label" for="rock">Rock</label>
+
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-check form-switch col">
+                                    <input class="form-check-input" type="checkbox" role="switch" id="steel">
+                                    <label class="form-check-label" for="steel">Steel</label>
+                                </div>
+                                <div class="form-check form-switch col">
+                                    <input class="form-check-input" type="checkbox" role="switch" id="water">
+                                    <label class="form-check-label" for="water">Water</label>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+
+                    <form class="d-flex" role="filter">
+                        <div class="container my-2">
+                            <div class="row">
+                                <legend>Filter Generation</legend>
+                            </div>
+                            <div class="row">
+                                <div class="form-check form-switch col">
+                                    <input class="form-check-input" type="checkbox" role="switch" id="one">
+                                    <label class="form-check-label" for="one">1</label>
+                                </div>
+                                <div class="form-check form-switch col">
+                                    <input class="form-check-input" type="checkbox" role="switch" id="two">
+                                    <label class="form-check-label" for="two">2</label>
+                                </div>
+                                <div class="form-check form-switch col">
+                                    <input class="form-check-input" type="checkbox" role="switch" id="three">
+                                    <label class="form-check-label" for="three">3</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-check form-switch col">
+                                    <input class="form-check-input" type="checkbox" role="switch" id="four">
+                                    <label class="form-check-label" for="four">4</label>
+                                </div>
+                                <div class="form-check form-switch col">
+                                    <input class="form-check-input" type="checkbox" role="switch" id="five">
+                                    <label class="form-check-label" for="five">5</label>
+                                </div>
+                                <div class="form-check form-switch col">
+                                    <input class="form-check-input" type="checkbox" role="switch" id="six">
+                                    <label class="form-check-label" for="six">6</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-check form-switch col">
+                                    <input class="form-check-input" type="checkbox" role="switch" id="seven">
+                                    <label class="form-check-label" for="seven">7</label>
+                                </div>
+                                <div class="form-check form-switch col">
+                                    <input class="form-check-input" type="checkbox" role="switch" id="eight">
+                                    <label class="form-check-label" for="eight">8</label>
+                                </div>
+                                <div class="form-check form-switch col">
+                                    <input class="form-check-input" type="checkbox" role="switch" id="nine">
+                                    <label class="form-check-label" for="nine">9</label>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                    <script>
+                        const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+                    </script>
+                </li>
+            </ul>
+        </div>
+        <main class="col main pt-5 mt-3 h-100 overflow-auto">
+            <div class="container">
+
+                <div class="row">
+                    <div class="col-auto">
+                        <img src="../img/icono.png" width="100" height="100">
+                    </div>
+                    <div class="col">
+                        <h1 class="display-4 d-none d-sm-block">
+                            Pokémon Stats Ranking
+                        </h1>
+                    </div>
+
+                </div>
+                <div class="row my-3">
+                    <div class="p-3 border border-4 border-success rounded col overflow-auto">
+                        <p class="fs-2">HP:</p>
+                        <div class="container list-group list-group-horizontal " id="hp">
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row my-3">
+                    <div class="p-3 border border-4 border-danger rounded col overflow-auto">
+                        <p class="fs-2">Atk:</p>
+                        <div class="container list-group list-group-horizontal " id="atk">
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row my-3">
+                    <div class="p-3 border border-4 border-primary rounded col overflow-auto">
+                        <p class="fs-2">Def:</p>
+                        <div class="container list-group list-group-horizontal " id="df">
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row my-3">
+                    <div class="p-3 border border-4 border-info rounded col overflow-auto">
+                        <p class="fs-2">Sp.Atk:</p>
+                        <div class="container list-group list-group-horizontal " id="sa">
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row my-3">
+                    <div class="p-3 border border-4 border-secondary rounded col overflow-auto">
+                        <p class="fs-2">Sp.Def:</p>
+                        <div class="container list-group list-group-horizontal " id="sd">
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row my-3">
+                    <div class="p-3 border border-4 border-warning rounded col overflow-auto">
+                        <p class="fs-2">Speed:</p>
+                        <div class="container list-group list-group-horizontal " id="spe">
+
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <br>
+                <br>
+            </div>
+            <script>
+                let pokemonData;
+                let datosFiltradosGenTip = [];
+                d3.json("../pokemon.json").then(function (data) {
+                    pokemonData = data;
+                    rankear(data);
+                    datosFiltradosGenTip = data;
+                });
+
+                function rankear(datos) {
+                    const cuantos = 50;
+                    datos.sort(function (a, b) {
+                        return b.HP - a.HP;
+                    })
+                    var topHp = datos.slice(0, cuantos);
+
+                    datos.sort(function (a, b) {
+                        return b.Attack - a.Attack;
+                    })
+                    var topAttack = datos.slice(0, cuantos);
+
+                    datos.sort(function (a, b) {
+                        return b.Defense - a.Defense;
+                    })
+                    var topDefense = datos.slice(0, cuantos);
+
+                    datos.sort(function (a, b) {
+                        return b["Sp. Atk"] - a["Sp. Atk"];
+                    })
+                    var topSa = datos.slice(0, cuantos);
+
+                    datos.sort(function (a, b) {
+                        return b["Sp. Def"] - a["Sp. Atk"];
+                    })
+                    var topSd = datos.slice(0, cuantos);
+
+                    datos.sort(function (a, b) {
+                        return b.Speed - a.Speed;
+                    })
+                    var topSpe = datos.slice(0, cuantos);
+
+
+                    var cajaStat = d3.select("#hp");
+                    cajaStat.selectAll("*").remove();
+                    topHp.forEach(function (d) {
+                        console.log(d);
+                        let nombre;
+                        if (d.Form) {
+                            nombre = d.Name + " (" + d.Form + ")";
+                        } else {
+                            nombre = d.Name;
+                        }
+                        var caja = cajaStat.append("div")
+                            .attr("class", "list-group-item")
+                            .attr("title", nombre + ": " + d.HP);
+                        caja.append("img")
+                            .attr("src", function () {
+                                return "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/portrait/" + d.ID.toString().padStart(4, '0') + "/Normal.png";
+                            });
+
+                    });
+
+                    cajaStat = d3.select("#atk");
+                    cajaStat.selectAll("*").remove();
+                    topAttack.forEach(function (d) {
+                        console.log(d);
+                        let nombre;
+                        if (d.Form) {
+                            nombre = d.Name + " (" + d.Form + ")";
+                        } else {
+                            nombre = d.Name;
+                        }
+                        var caja = cajaStat.append("div")
+                            .attr("class", "list-group-item")
+                            .attr("title", nombre + ": " + d.Attack);
+                        caja.append("img")
+                            .attr("src", function () {
+                                return "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/portrait/" + d.ID.toString().padStart(4, '0') + "/Normal.png";
+                            });
+                    });
+
+                    cajaStat = d3.select("#df");
+                    cajaStat.selectAll("*").remove();
+                    topDefense.forEach(function (d) {
+                        console.log(d);
+                        let nombre;
+                        if (d.Form) {
+                            nombre = d.Name + " (" + d.Form + ")";
+                        } else {
+                            nombre = d.Name;
+                        }
+                        var caja = cajaStat.append("div")
+                            .attr("class", "list-group-item")
+                            .attr("title", nombre + ": " + d.Defense);
+                        caja.append("img")
+                            .attr("src", function () {
+                                return "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/portrait/" + d.ID.toString().padStart(4, '0') + "/Normal.png";
+                            });
+                    });
+
+                    cajaStat = d3.select("#sa");
+                    cajaStat.selectAll("*").remove();
+                    topSa.forEach(function (d) {
+                        console.log(d);
+                        let nombre;
+                        if (d.Form) {
+                            nombre = d.Name + " (" + d.Form + ")";
+                        } else {
+                            nombre = d.Name;
+                        }
+                        var caja = cajaStat.append("div")
+                            .attr("class", "list-group-item")
+                            .attr("title", nombre + ": " + d["Sp. Atk"]);
+                        caja.append("img")
+                            .attr("src", function () {
+                                return "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/portrait/" + d.ID.toString().padStart(4, '0') + "/Normal.png";
+                            });
+                    });
+
+                    cajaStat = d3.select("#sd");
+                    cajaStat.selectAll("*").remove();
+                    topSd.forEach(function (d) {
+                        console.log(d);
+                        let nombre;
+                        if (d.Form) {
+                            nombre = d.Name + " (" + d.Form + ")";
+                        } else {
+                            nombre = d.Name;
+                        }
+                        var caja = cajaStat.append("div")
+                            .attr("class", "list-group-item")
+                            .attr("title", nombre + ": " + d["Sp. Def"]);
+                        caja.append("img")
+                            .attr("src", function () {
+                                return "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/portrait/" + d.ID.toString().padStart(4, '0') + "/Normal.png";
+                            });
+                    });
+
+                    cajaStat = d3.select("#spe");
+                    cajaStat.selectAll("*").remove();
+                    topSpe.forEach(function (d) {
+                        console.log(d);
+                        let nombre;
+                        if (d.Form) {
+                            nombre = d.Name + " (" + d.Form + ")";
+                        } else {
+                            nombre = d.Name;
+                        }
+                        var caja = cajaStat.append("div")
+                            .attr("class", "list-group-item")
+                            .attr("title", nombre + ": " + d.Speed);
+                        caja.append("img")
+                            .attr("src", function () {
+                                return "https://raw.githubusercontent.com/PMDCollab/SpriteCollab/master/portrait/" + d.ID.toString().padStart(4, '0') + "/Normal.png";
+                            });
+                    });
+                }
+
+                let filtrosTipo = [];
+                let filtrosGen = [];
+
+                checkboxes.forEach(function (checkbox) {
+                    checkbox.addEventListener('change', function () {
+                        if (this.checked) {
+                            switch (this.id) {
+                                case "one":
+                                    filtrosGen.push("1");
+                                    break;
+                                case "two":
+                                    filtrosGen.push("2");
+                                    break;
+                                case "three":
+                                    filtrosGen.push("3");
+                                    break;
+                                case "four":
+                                    filtrosGen.push("4");
+                                    break;
+                                case "five":
+                                    filtrosGen.push("5");
+                                    break;
+                                case "six":
+                                    filtrosGen.push("6");
+                                    break;
+                                case "seven":
+                                    filtrosGen.push("7");
+                                    break;
+                                case "eight":
+                                    filtrosGen.push("8");
+                                    break;
+                                case "nine":
+                                    filtrosGen.push("9");
+                                    break;
+                                default :
+                                    filtrosTipo.push(this.id);
+                            }
+                        } else {
+                            let index;
+                            switch (this.id) {
+                                case "one":
+                                    index = filtrosGen.indexOf('1');
+                                    if (index > -1)
+                                        filtrosGen.splice(index, 1);
+                                    break;
+
+                                case "two":
+                                    index = filtrosGen.indexOf('2');
+                                    if (index > -1)
+                                        filtrosGen.splice(index, 1);
+                                    break;
+
+                                case "three":
+                                    index = filtrosGen.indexOf('3');
+                                    if (index > -1)
+                                        filtrosGen.splice(index, 1);
+                                    break;
+                                case "four":
+                                    index = filtrosGen.indexOf('4');
+                                    if (index > -1)
+                                        filtrosGen.splice(index, 1);
+                                    break
+                                case "five":
+                                    index = filtrosGen.indexOf('5');
+                                    if (index > -1)
+                                        filtrosGen.splice(index, 1);
+                                    break;
+                                case "six":
+                                    index = filtrosGen.indexOf('6');
+                                    if (index > -1)
+                                        filtrosGen.splice(index, 1);
+                                    break;
+                                case "seven":
+                                    index = filtrosGen.indexOf('7');
+                                    if (index > -1)
+                                        filtrosGen.splice(index, 1);
+                                    break;
+                                case "eight":
+                                    index = filtrosGen.indexOf('8');
+                                    if (index > -1)
+                                        filtrosGen.splice(index, 1);
+                                    break;
+                                case "nine":
+                                    index = filtrosGen.indexOf('9');
+                                    if (index > -1)
+                                        filtrosGen.splice(index, 1);
+                                    break;
+                                default :
+                                    index = filtrosGen.indexOf(this.id);
+                                    if (index > -1)
+                                        filtrosGen.splice(index, 1);
+
+                                    index = filtrosTipo.indexOf(this.id);
+                                    if (index > -1)
+                                        filtrosTipo.splice(index, 1);
+                                    break;
+                            }
+                        }
+                        datosFiltradosGenTip = pokemonData.filter(function (d) {
+                            let esta = null;
+                            if (filtrosTipo.length != 0) {
+                                filtrosTipo.forEach(function (tipo) {
+                                    if ((d.Type1.toLowerCase() == tipo) || (d.Type2.toLowerCase() == tipo)) {
+                                        if (esta === null) {
+                                            esta = true;
+                                        } else {
+                                            if (!esta) {
+                                                esta = false;
+                                            }
+                                        }
+                                    } else {
+                                        esta = false;
+                                    }
+                                });
+                            } else {
+                                esta = true;
+                            }
+                            if (filtrosGen.length != 0) {
+                                let esta2 = false;
+                                filtrosGen.forEach(function (gen) {
+                                    if (d.Generation == gen) {
+                                        esta2 = true;
+                                    }
+                                });
+                                return esta && esta2;
+                            }
+                            return esta;
+                        });
+                        rankear(datosFiltradosGenTip);
+                    });
+                });
+
+            </script>
+        </main>
+    </div>
+</div>
+</body>
+</html>
