@@ -113,7 +113,9 @@
 
                 var arc = d3.arc()
                     .innerRadius(250)
-                    .outerRadius(radius);
+                    .outerRadius(radius)
+                    .padAngle(0.02)
+                    .cornerRadius(10);
 
                 var svg = d3.select("#gen")
                     .append("svg")
@@ -190,7 +192,9 @@
 
                  arc = d3.arc()
                     .innerRadius(250)
-                    .outerRadius(radius);
+                    .outerRadius(radius)
+                     .padAngle(0.01)
+                     .cornerRadius(10);
 
                  svg = d3.select("#type")
                     .append("svg")
