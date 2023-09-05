@@ -1,20 +1,115 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
+    <title>Lobby Principal</title>
     <meta charset="UTF-8">
     <title>@dvdmontagut's pokemon Stats Web</title>
-    <link rel="stylesheet" href="css/bootstrap.css" />
-    <script src="js/bootstrap.js"></script>
+    <link rel="stylesheet" href="../css/bootstrap.css"/>
+    <script src="../js/bootstrap.js"></script>
+    <link rel="shortcut icon" href="../img/dvdmontagut.ico" type="image/x-icon">
+    <style>
+        body {
+            background-image: url(../img/geometry2.webp);
+            background-repeat: repeat;
+            background-size: auto;
+        }
+        .row h1 {
+            animation: lift 10s linear infinite;
+        }
+
+        @keyframes lift {
+            0% {
+                transform: translateY(0);
+            }
+            25% {
+                transform: translateY(-20px);
+            }
+            50% {
+                transform: translateY(0);
+            }
+        }
+    </style>
 </head>
 <body>
-<div class="container-fluid">
+<div class="container text-center mt-5">
+    <div class="row font-monospace my-5">
+        <h1>· dvdmontagut's Projects Lobby ·</h1>
+    </div>
+    <div class="row justify-content-between">
+        <div class="col-md-5 my-3">
+            <button class="btn btn-outline-primary btn-lg btn-block mb-3 " onclick="redirectToPokemon()">
+                <div class="row">
+                    <div class="col">
+                        <img src="../img/icono.png" alt="Logo Pokemon Stadistics" class="img-fluid mb-2" style="height: 10em">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col font-monospace">
+                        <p>Pokémon Stadistics</p>
+                    </div>
+                </div>
+            </button>
+            <div class="row list-group list-group-horizontal font-monospace" >
+                <div class="list-group-item col">
+                    <img src="../img/d3Logo.png" style="height: 2em">
+                    <p>D3.js</p>
+                </div>
+                <div class="list-group-item col">
+                    <img src="../img/HTML5_logo.png" style="height: 2em">
+                    <p>HTML5</p>
+                </div>
+                <div class="list-group-item col">
+                    <img src="../img/soloPc.png" style="height: 2em">
+                    <p>Solo PC</p>
+                </div>
+            </div>
+            <div class="row bg-white border border-secondary border-opacity-25 rounded-2 text-start">
+                <p>Proyecto universitario que consiste en la utilización de la biblioteca de JavaScript <strong>D3</strong> usada para <strong>manipular y visualizar datos</strong> respetando estándares web.<br>El proyecto se basa en mostrar las diferentes <strong>estadísticas</strong> Pokémon. (Vida, Ataque, Defensa, Velocidad, ..) en forma de gráficas. Ofreciendo diversas funcionalidades como la <strong>comparación</strong> de Pokémon o la clasificación en formato de <strong>ranking</strong>.</p>
+            </div>
+        </div>
 
-        <img src="img/icono.png" width="500" height="500">
-
-
+        <div class="col-md-5 my-3">
+            <button class="btn btn-outline-secondary btn-lg btn-block mb-3 disabled">
+                <div class="row">
+                    <div class="col">
+                        <img src="../img/dvdmontagut.png" alt="Imagen Placeholder" class="img-fluid mb-2" style="height: 10em">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col font-monospace">
+                        <p>Waiting for new Projects</p>
+                    </div>
+                </div>
+            </button>
+            <div class="row list-group list-group-horizontal font-monospace" >
+                <div class="list-group-item col">
+                    <img src="../img/PlaceholderLC.png" style="height: 2em">
+                    <p>Placeholder</p>
+                </div>
+                <div class="list-group-item col">
+                    <img src="../img/PlaceholderLC.png" style="height: 2em">
+                    <p>Placeholder</p>
+                </div>
+                <div class="list-group-item col">
+                    <img src="../img/PlaceholderLC.png" style="height: 2em">
+                    <p>Placeholder</p>
+                </div>
+                <div class="list-group-item col">
+                    <img src="../img/PlaceholderLC.png" style="height: 2em">
+                    <p>Placeholder</p>
+                </div>
+            </div>
+            <div class="row bg-white border border-secondary border-opacity-25 rounded-2 text-start">
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris eget euismod nunc. Integer ultrices, lacus id iaculis semper, nisi nisi eleifend urna, tincidunt congue turpis justo a ante. In rutrum nunc sit amet tortor scelerisque, eget condimentum eros ornare. Aliquam placerat pharetra nulla non congue.</p>
+            </div>
+        </div>
+    </div>
 </div>
-    <script>
-        location.replace('https://dvdmontagut.github.io/data/pokemonData.html');
-    </script>
+</div>
+<script>
+    function redirectToPokemon() {
+        window.open('https://dvdmontagut.github.io/data/pokemonData.html');
+    }
+</script>
 </body>
 </html>
