@@ -3,7 +3,6 @@
 <head>
     <title>Lobby Principal</title>
     <meta charset="UTF-8">
-    <title>@dvdmontagut's pokemon Stats Web</title>
     <link rel="stylesheet" href="../css/bootstrap.css"/>
     <script src="../js/bootstrap.js"></script>
     <link rel="shortcut icon" href="../img/dvdmontagut.ico" type="image/x-icon">
@@ -101,6 +100,29 @@
             </div>
         </div>
 
+        <div class="col-md-5 my-3">
+            <button class="btn btn-outline-dark btn-lg btn-block mb-3" onclick="redirectToDuelBook()">
+                <div class="row">
+                    <div class="col">
+                        <img src="../img/LibrosDeDuelo/logoDuelBook.jpg" alt="DuelBooks Marker" class="img-fluid mb-2" style="height: 10em">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col font-monospace">
+                        <p>DuelBooks Marker</p>
+                    </div>
+                </div>
+            </button>
+            <div class="row list-group list-group-horizontal font-monospace" >
+                <div class="list-group-item col">
+                    <img src="../img/HTML5_logo.png" style="height: 2em">
+                    <p>HTML5</p>
+                </div>
+            </div>
+            <div class="row bg-white border border-secondary border-opacity-25 rounded-2 text-start">
+                <p>Contador para jugar a DuelBooks apuntando las cosas en el navegador. Ha sido un proyecto breve y en su mayoria realizado con ChatGpt</p>
+            </div>
+        </div>
 
         <div class="col-md-5 my-3">
             <button class="btn btn-outline-secondary btn-lg btn-block mb-3 disabled">
@@ -137,6 +159,7 @@
                 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris eget euismod nunc. Integer ultrices, lacus id iaculis semper, nisi nisi eleifend urna, tincidunt congue turpis justo a ante. In rutrum nunc sit amet tortor scelerisque, eget condimentum eros ornare. Aliquam placerat pharetra nulla non congue.</p>
             </div>
         </div>
+
     </div>
 </div>
 </div>
@@ -147,6 +170,10 @@
 
     function redirectToALE() {
         window.open('https://dvdmontagut.github.io/Lex/analizadorLexico.html');
+    }
+
+    function redirectToDuelBook() {
+        window.open('https://dvdmontagut.github.io/LibrosDeDuelo');
     }
 </script>
 </body>

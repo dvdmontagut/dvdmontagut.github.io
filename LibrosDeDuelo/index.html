@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <title>Libro de duelos</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="../css/bootstrap.css"/>
+    <script src="../js/bootstrap.js"></script>
+    <link rel="shortcut icon" href="../img/dvdmontagut.ico" type="image/x-icon">
+    <style>
+        body {
+            background-image: url(../img/LibrosDeDuelo/background03.webp);
+            background-repeat: repeat;
+            background-size: auto;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container-fluid my-3">
+    <div class="row">
+        <div class="col-12 col-lg-5">
+            <div class="row">
+                <div class="col-3">
+                    <h4>Destruidos <span class="badge bg-secondary" id="DestruidosContador">00</span></h4>
+                </div>
+                <div class="col-3">
+                    <h4>Zombies <span class="badge bg-secondary" id="ZombiesContador">00</span></h4>
+                </div>
+                <div class="col-3">
+                    <h4>Sublevados <span class="badge bg-secondary" id="SublevadosContador">00</span>-<span
+                            class="badge bg-black" id="SublevadosContadorSumatorio">00</span></h4>
+                </div>
+                <div class="col-3">
+                    <h4>Reclamo <span class="badge bg-secondary" id="ReclamoContador">00</span></h4>
+                </div>
+            </div>
+            <div class="row my-4">
+                <div class="col-5">
+                    <div class="input-group flex-nowrap my-1">
+                        <span class="input-group-text bg-success  text-light" id="addon-wrapping">Puntos de vida</span>
+                        <input type="number" class="form-control" id="puntosVida" value="20"
+                               aria-describedby="addon-wrapping"> <!-- ID agregado -->
+                    </div>
+                </div>
+            </div>
+            <div class="row my-4">
+                <div class="col-9">
+                    <a class="btn btn-primary" id="btnD61" role="button">Tirar D6</a>
+                    <h3><span class="badge bg-secondary" id="d61">00</span></h3>
+                </div>
+            </div>
+            <div class="row my-4">
+                <div class="col-9">
+                    <a class="btn btn-primary" id="btnD62" role="button">Tirar D6</a>
+                    <h3><span class="badge bg-secondary" id="d62">00</span></h3>
+                </div>
+            </div>
+            <div class="row my-4">
+                <div class="col-9">
+                    <a class="btn btn-primary" id="btnD20" role="button">Tirar D20</a>
+                    <h3><span class="badge bg-secondary" id="d20">00</span></h3>
+                </div>
+            </div>
+
+        </div>
+        <div class="col-12 col-lg-5">
+            <div id="accordionContainer" class="accordion"></div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function tirarDado(max) {
+        return Math.floor(Math.random() * max) + 1;
+    }
+
+    // Función para actualizar el resultado del dado en el DOM
+    function actualizarResultadoDado(dadoId, resultado) {
+        document.getElementById(dadoId).innerText = resultado.toString().padStart(2, '0');
+    }
+
+    // Evento para el botón del primer D6
+    document.getElementById('btnD61').addEventListener('click', function () {
+        const resultado = tirarDado(6);
+        actualizarResultadoDado('d61', resultado);
+    });
+
+    // Evento para el botón del segundo D6
+    document.getElementById('btnD62').addEventListener('click', function () {
+        const resultado = tirarDado(6);
+        actualizarResultadoDado('d62', resultado);
+    });
+
+    // Evento para el botón del D20
+    document.getElementById('btnD20').addEventListener('click', function () {
+        const resultado = tirarDado(20);
+        actualizarResultadoDado('d20', resultado);
+    });
+</script>
+
+<script>
+    // Variables para los contadores
+    let destruidos = 0;
+    let zombies = 0;
+    let sublevados = 0;
+    let sublevadosSumatorio = 0;
+    let reclamo = 0;
+
+    // Función para actualizar los contadores en el DOM
+    function actualizarContadores() {
+        document.getElementById('DestruidosContador').innerText = destruidos.toString().padStart(2, '0');
+        document.getElementById('ZombiesContador').innerText = zombies.toString().padStart(2, '0');
+        document.getElementById('SublevadosContador').innerText = sublevados.toString().padStart(2, '0');
+        document.getElementById('SublevadosContadorSumatorio').innerText = sublevadosSumatorio.toString().padStart(2, '0');
+        document.getElementById('ReclamoContador').innerText = reclamo.toString().padStart(2, '0');
+    }
+
+    // Evento para manejar los cambios en los checkboxes y campos numéricos
+    function agregarEventos() {
+        const checkboxes = document.querySelectorAll('.btn-check');
+        const inputsSublevados = document.querySelectorAll('input[type="number"]');
+
+        // Añadir eventos a los checkboxes
+        checkboxes.forEach(checkbox => {
+            checkbox.addEventListener('change', function () {
+                // Obtener el estado actual del checkbox
+                const isChecked = this.checked;
+                const label = this.nextElementSibling.textContent;
+
+                if (label === 'Destruido') {
+                    destruidos += isChecked ? 1 : -1;
+                } else if (label === 'Zombie') {
+                    zombies += isChecked ? 1 : -1;
+                } else if (label === 'Reclamo') {
+                    reclamo += isChecked ? 1 : -1;
+                }
+
+                // Actualizar los contadores en pantalla
+                actualizarContadores();
+            });
+        });
+
+        // Añadir eventos a los campos de número (Sublevados)
+        inputsSublevados.forEach(input => {
+            input.addEventListener('input', function() {
+                // Verificar si el input es el campo de "Puntos de vida" y saltarlo
+                if (this.id === 'puntosVida') return;  // Salir si es el input de Puntos de vida
+
+                const valorPrevio = this.dataset.valorPrevio ? parseInt(this.dataset.valorPrevio) : 0;
+                const nuevoValor = parseInt(this.value) || 0;
+
+                // Actualizar el contador de sublevados
+                sublevadosSumatorio += (nuevoValor - valorPrevio);
+
+                // Guardar el nuevo valor en el dataset para futuros cálculos
+                this.dataset.valorPrevio = nuevoValor;
+
+                // Contar cuántos campos tienen un valor mayor a 0, excluyendo "Puntos de vida"
+                sublevados = Array.from(inputsSublevados).filter(input => input.id !== 'puntosVida' && parseInt(input.value) > 0).length;
+
+                // Actualizar los contadores en pantalla
+                actualizarContadores();
+            });
+        });
+    }
+
+    // Generar el acordeón dinámicamente
+    function generateAccordion() {
+        const accordionContainer = document.getElementById('accordionContainer');
+
+        for (let i = 1; i <= 12; i++) {
+            let chapterHtml = `
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="heading${i}">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#collapse${i}" aria-expanded="false" aria-controls="collapse${i}">
+                            Capitulo ${i}
+                        </button>
+                    </h2>
+                    <div id="collapse${i}" class="accordion-collapse collapse" aria-labelledby="heading${i}">
+                        <div class="accordion-body">`;
+
+            for (let j = 1; j <= 4; j++) {
+                chapterHtml += `
+                    <div class="container-fluid my-3">
+                        <div class="row border-bottom border-1">
+                            <div class="col">
+                                <p>Carta 0${j}</p>
+                            </div>
+                            <div class="col">
+                                <div class="btn-group" role="group" aria-label="Basic checkbox toggle button group">
+                                    <input type="checkbox" class="btn-check" id="btncheck${i}${j}1" autocomplete="off">
+                                    <label class="btn btn-outline-primary" for="btncheck${i}${j}1">Destruido</label>
+
+                                    <input type="checkbox" class="btn-check" id="btncheck${i}${j}2" autocomplete="off">
+                                    <label class="btn btn-outline-primary" for="btncheck${i}${j}2">Zombie</label>
+
+                                    <input type="checkbox" class="btn-check" id="btncheck${i}${j}3" autocomplete="off">
+                                    <label class="btn btn-outline-primary" for="btncheck${i}${j}3">Reclamo</label>
+                                </div>
+                                <div class="input-group flex-nowrap my-1">
+                                    <span class="input-group-text" id="addon-wrapping">Sublevado</span>
+                                    <input type="number" class="form-control" value="0" aria-describedby="addon-wrapping">
+                                </div>
+                            </div>
+                        </div>
+                    </div>`;
+            }
+
+            chapterHtml += `
+                        </div>
+                    </div>
+                </div>`;
+
+            accordionContainer.innerHTML += chapterHtml;
+        }
+
+        // Añadir eventos después de generar el acordeón
+        agregarEventos();
+    }
+
+    // Llamar a la función para generar el acordeón cuando cargue la página
+    window.onload = generateAccordion;
+</script>
+
+</body>
+</html>
