@@ -17,28 +17,36 @@
 <body>
 
 <div class="container-fluid my-3">
+    <div class="row my-4">
+        <div class="col-3">
+            <h5>Destruidas <span class="badge bg-secondary" id="DestruidosContador">00</span></h5>
+        </div>
+        <div class="col-3">
+            <h5>Zombificadas <span class="badge bg-secondary" id="ZombiesContador">00</span></h5>
+        </div>
+        <div class="col-3">
+            <h5>Sublevadas <span class="badge bg-secondary" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Páginas sublevadas" id="SublevadosContador">00</span>-<span
+                    class="badge bg-black" id="SublevadosContadorSumatorio" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Marcapáginas de sublevacion puestos">00</span></h5>
+        </div>
+        <div class="col-3">
+            <h5>Reclamo <span class="badge bg-secondary" id="ReclamoContador" >00</span></h5>
+        </div>
+    </div>
     <div class="row">
-        <div class="col-12 col-lg-5">
-            <div class="row">
-                <div class="col-3">
-                    <h4>Destruidos <span class="badge bg-secondary" id="DestruidosContador">00</span></h4>
-                </div>
-                <div class="col-3">
-                    <h4>Zombies <span class="badge bg-secondary" id="ZombiesContador">00</span></h4>
-                </div>
-                <div class="col-3">
-                    <h4>Sublevados <span class="badge bg-secondary" id="SublevadosContador">00</span>-<span
-                            class="badge bg-black" id="SublevadosContadorSumatorio">00</span></h4>
-                </div>
-                <div class="col-3">
-                    <h4>Reclamo <span class="badge bg-secondary" id="ReclamoContador">00</span></h4>
-                </div>
-            </div>
+        <div class="col-12 col-lg-6">
+
             <div class="row my-4">
                 <div class="col-5">
                     <div class="input-group flex-nowrap my-1">
                         <span class="input-group-text bg-success  text-light" id="addon-wrapping">Puntos de vida</span>
                         <input type="number" class="form-control" id="puntosVida" value="20"
+                               aria-describedby="addon-wrapping"> <!-- ID agregado -->
+                    </div>
+                </div>
+                <div class="col-5">
+                    <div class="input-group flex-nowrap my-1">
+                        <span class="input-group-text bg-danger  text-light" id="addon-wrapping2">Puntos de vida</span>
+                        <input type="number" class="form-control" id="puntosVida2" value="20"
                                aria-describedby="addon-wrapping"> <!-- ID agregado -->
                     </div>
                 </div>
@@ -66,7 +74,25 @@
         <div class="col-12 col-lg-5">
             <div id="accordionContainer" class="accordion"></div>
         </div>
+
     </div>
+    <div class="row">
+        <footer class="bg-body-tertiary text-center">
+            <!-- Grid container -->
+            <div class="container p-4">
+            </div>
+            <!-- Grid container -->
+
+            <!-- Copyright -->
+            <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.05);">
+                Página Fan para usar como marcador de tus DuelBooks cualquier fallo o problema con esta web no tiene nada que ver con los responsables de DuelBooks
+                <br>
+                <a class="text-body" href="https://dvdmontagut.github.io/">Más proyectos personales for fun o de la universidad</a>
+            </div>
+            <!-- Copyright -->
+        </footer>
+    </div>
+
 </div>
 
 <script>
@@ -127,11 +153,11 @@
                 const isChecked = this.checked;
                 const label = this.nextElementSibling.textContent;
 
-                if (label === 'Destruido') {
+                if (label === 'Destruir') {
                     destruidos += isChecked ? 1 : -1;
-                } else if (label === 'Zombie') {
+                } else if (label === 'Zombificar') {
                     zombies += isChecked ? 1 : -1;
-                } else if (label === 'Reclamo') {
+                } else if (label === 'Reclamar') {
                     reclamo += isChecked ? 1 : -1;
                 }
 
@@ -145,7 +171,7 @@
             input.addEventListener('input', function() {
                 // Verificar si el input es el campo de "Puntos de vida" y saltarlo
                 if (this.id === 'puntosVida') return;  // Salir si es el input de Puntos de vida
-
+                if (this.id === 'puntosVida2') return;
                 const valorPrevio = this.dataset.valorPrevio ? parseInt(this.dataset.valorPrevio) : 0;
                 const nuevoValor = parseInt(this.value) || 0;
 
@@ -156,7 +182,7 @@
                 this.dataset.valorPrevio = nuevoValor;
 
                 // Contar cuántos campos tienen un valor mayor a 0, excluyendo "Puntos de vida"
-                sublevados = Array.from(inputsSublevados).filter(input => input.id !== 'puntosVida' && parseInt(input.value) > 0).length;
+                sublevados = Array.from(inputsSublevados).filter(input => input.id !== 'puntosVida2' && input.id !== 'puntosVida' && parseInt(input.value) > 0).length;
 
                 // Actualizar los contadores en pantalla
                 actualizarContadores();
@@ -190,16 +216,16 @@
                             <div class="col">
                                 <div class="btn-group" role="group" aria-label="Basic checkbox toggle button group">
                                     <input type="checkbox" class="btn-check" id="btncheck${i}${j}1" autocomplete="off">
-                                    <label class="btn btn-outline-primary" for="btncheck${i}${j}1">Destruido</label>
+                                    <label class="btn btn-outline-primary" for="btncheck${i}${j}1">Destruir</label>
 
                                     <input type="checkbox" class="btn-check" id="btncheck${i}${j}2" autocomplete="off">
-                                    <label class="btn btn-outline-primary" for="btncheck${i}${j}2">Zombie</label>
+                                    <label class="btn btn-outline-primary" for="btncheck${i}${j}2">Zombificar</label>
 
                                     <input type="checkbox" class="btn-check" id="btncheck${i}${j}3" autocomplete="off">
-                                    <label class="btn btn-outline-primary" for="btncheck${i}${j}3">Reclamo</label>
+                                    <label class="btn btn-outline-primary" for="btncheck${i}${j}3">Reclamar</label>
                                 </div>
                                 <div class="input-group flex-nowrap my-1">
-                                    <span class="input-group-text" id="addon-wrapping">Sublevado</span>
+                                    <span class="input-group-text" id="addon-wrapping">Sublevar</span>
                                     <input type="number" class="form-control" value="0" aria-describedby="addon-wrapping">
                                 </div>
                             </div>
@@ -222,6 +248,8 @@
     // Llamar a la función para generar el acordeón cuando cargue la página
     window.onload = generateAccordion;
 </script>
+
+
 
 </body>
 </html>
